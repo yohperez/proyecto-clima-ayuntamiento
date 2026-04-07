@@ -1,3 +1,9 @@
+"""
+ESTE TEST VALIDA EL MÓDULO DE ALERTAS.
+Sirve para asegurar que el Ayuntamiento siempre detecte condiciones extremas.
+Ejecución: python test_alertas.py
+"""
+
 # test_alertas.py
 from alertas import analizar_riesgos
 
