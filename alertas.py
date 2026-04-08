@@ -1,22 +1,48 @@
 # alertas.py
 
-def analizar_riesgos(t, v):
+# Configuración de umbrales según el MVP y la guía técnica
+ALERTAS_CONFIG = {
+    'calor_roja':    {'campo': 'temperatura', 'umbral': 40, 'msj': '🔴 ALERTA ROJA: Calor extremo (≥40ºC). Protocolo activado.'},
+    'calor_naranja': {'campo': 'temperatura', 'umbral': 35, 'msj': '🟠 ALERTA NARANJA: Calor alto (≥35ºC). Precaución.'},
+    'viento_fuerte': {'campo': 'viento',      'umbral': 70, 'msj': '💨 ALERTA VIENTO: Riesgo por rachas fuertes (>70 km/h).'},
+    'humedad_ext':   {'campo': 'humedad',     'umbral': 90, 'msj': '💧 ALERTA HUMEDAD: Humedad extrema (≥90%).'},
+    'hielo':         {'campo': 'temperatura', 'umbral': 0,  'msj': '❄️ AVISO HELADA: Riesgo de placas de hielo.', 'tipo': 'frio'}
+}
+
+def analizar_riesgos(registro):
     """
-    Recibe temperatura (t) y viento (v). 
-    Imprime avisos si se superan los umbrales del Ayuntamiento.
+    Analiza un diccionario de registro y detecta situaciones de riesgo.
+    Retorna una lista con los mensajes de alerta encontrados.
     """
-    # Alerta por Calor Extremo
-    if t >= 40:
-        print("⚠️  [ALERTA CALOR] Protocolo de emergencia activo. Evitar actividades al aire libre.")
+    alertas_detectadas = []
     
-    # Alerta por Frío/Heladas (Extra para nota)
-    elif t <= 0:
-        print("❄️  [ALERTA HELADA] Riesgo de placas de hielo en pavimentos.")
+    try:
+        # Validamos que los datos necesarios existan y sean numéricos
+        for clave, conf in ALERTAS_CONFIG.items():
+            valor_sensor = registro.get(conf['campo'])
+            
+            if valor_sensor is None:
+                continue
+                
+            valor = float(valor_sensor)
+            
+            # Lógica para frío (menor o igual) y calor/viento/humedad (mayor o igual)
+            if conf.get('tipo') == 'frio':
+                if valor <= conf['umbral']:
+                    alertas_detectadas.append(conf['msj'])
+            else:
+                if valor >= conf['umbral']:
+                    alertas_detectadas.append(conf['msj'])
 
-    # Alerta por Viento Fuerte
-    if v >= 80:
-        print("💨 [ALERTA VIENTO] Riesgo de caída de ramas. Cierre preventivo de parques.")
+    except (ValueError, TypeError):
+        return ["❌ Error: Los datos climáticos para alertas deben ser numéricos."]
 
-    # Si todo está bien, podrías añadir un mensaje opcional
-    if 0 < t < 40 and v < 80:
-        print("✅ Parámetros climáticos dentro de la normalidad.")
+    # Mostrar resultados por consola para el operario
+    if not alertas_detectadas:
+        print("✅ Información: Sin riesgos detectados en esta zona.")
+    else:
+        print(f"🚨 ALERTAS DETECTADAS:")
+        for msj in alertas_detectadas:
+            print(f"   {msj}")
+            
+    return alertas_detectadas
