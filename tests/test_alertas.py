@@ -37,6 +37,7 @@ if __name__ == "__main__":
     try:
         test_alerta_calor_extremo()
         test_alerta_viento_fuerte()
+        test_alerta_temperatura_extrema()
         test_alerta_humedad_extrema()
         test_datos_invalidos()
         print("\n¡Pruebas superadas con éxito! ✅")
