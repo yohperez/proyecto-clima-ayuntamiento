@@ -211,4 +211,4 @@ marimo/_lsp/
 __marimo__/
 
 # Datos generados por pruebas o ejecuciones locales
-clima_dataset.csv
+*.csv
