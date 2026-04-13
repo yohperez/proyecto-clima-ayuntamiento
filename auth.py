@@ -22,33 +22,47 @@ def _cargar_usuarios():
             lector = csv.DictReader(f)
             for fila in lector:
                 usuarios[fila["usuario"]] = fila["password_hash"]
-    except Exception: pass 
+    except Exception: 
+        pass 
     return usuarios
 
 def registrar_usuario():
     print("\n--- 👤 REGISTRO DE USUARIO ---")
     usuarios_db = _cargar_usuarios()
-    nuevo_user = input("Elige un nombre de usuario: ").strip().lower()
     
-    if not nuevo_user:
-        print("❌ El usuario no puede estar vacío.")
-        return
-    if nuevo_user in usuarios_db:
-        print("❌ Este usuario ya existe.")
-        return
+    # Bucle para asegurar que el usuario se introduce correctamente
+    while True:
+        nuevo_user = input("Elige un nombre de usuario: ").strip().lower()
+        
+        if not nuevo_user:
+            print("❌ El usuario no puede estar vacío. Inténtalo de nuevo.")
+            continue
+            
+        if nuevo_user in usuarios_db:
+            print("❌ Este usuario ya existe.")
+            return  # Lo devolvemos al menú si el usuario ya existe
+            
+        break # Si el usuario es válido y nuevo, salimos del bucle
 
-    pw = getpass.getpass("Elige una contraseña: ")
-    if len(pw) < 4:
-        print("❌ Contraseña demasiado corta (mínimo 4 caracteres).")
-        return
+    # Bucle para asegurar que la contraseña cumple los requisitos
+    while True:
+        pw = getpass.getpass("Elige una contraseña (mínimo 4 caracteres): ")
+        
+        # Usamos strip() para evitar contraseñas hechas solo de espacios
+        if len(pw.strip()) < 4:
+            print("❌ Contraseña demasiado corta o inválida. Inténtalo de nuevo.")
+            continue
+            
+        break # Si la contraseña es válida, salimos del bucle
 
     archivo_nuevo = not os.path.exists(ARCHIVO_USUARIOS)
     try:
         with open(ARCHIVO_USUARIOS, "a", newline="", encoding="utf-8") as f:
             escritor = csv.DictWriter(f, fieldnames=COLUMNAS)
-            if archivo_nuevo: escritor.writeheader()
+            if archivo_nuevo: 
+                escritor.writeheader()
             escritor.writerow({"usuario": nuevo_user, "password_hash": _hash_password(pw)})
-        print(f"✅ Usuario '{nuevo_user}' creado.")
+        print(f"✅ Usuario '{nuevo_user}' creado con éxito.")
     except Exception as e:
         print(f"❌ Fallo al guardar: {e}")
 
@@ -86,6 +100,10 @@ def solicitar_acceso():
             if login_tradicional(): return True
         elif opc == "2": 
             if login_google(): return True
-        elif opc == "3": registrar_usuario()
-        elif opc == "4": sys.exit()
-        else: print("⚠️ Opción no válida.")
+        elif opc == "3": 
+            registrar_usuario()
+        elif opc == "4": 
+            print("\nCerrando sistema...")
+            sys.exit()
+        else: 
+            print("⚠️ Opción no válida.")
