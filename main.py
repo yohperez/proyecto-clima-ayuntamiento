@@ -52,18 +52,31 @@ def menu_principal():
 
         elif opcion == "3":
             # 4. NUEVA FUNCIONALIDAD: Estadísticas
-            zona = input("\n¿De qué zona desea ver estadísticas? ").title()
-            stats = gestor.obtener_estadisticas_zona(zona)
-            
-            if stats:
-                print(f"\n--- 📊 RESUMEN ESTADÍSTICO: {zona.upper()} ---")
-                print(f"✅ Mediciones totales: {stats['conteo']}")
-                print(f"🌡️ Temperatura Media: {stats['media_temp']:.2f}ºC")
-                print(f"🔥 Temp. Máxima:      {stats['max_temp']}ºC")
-                print(f"💧 Humedad Media:     {stats['media_hum']:.1f}%")
-                print(f"💨 Viento Máximo:     {stats['max_viento']} km/h")
+            ##Definición zonas permitidas
+            zonas_validas = ["Norte", "Sur", "Centro", "Este", "Oeste"]
+
+            print("\n--- 📊 Módulo de Análisis Estadístico ---")
+            print(f"Zonas disponibles: {', '.join(zonas_validas)}")
+
+            zona = input("Escriba la zona a consultar: ").strip().title()
+
+            ##Validar si la zona escrit está en la listas
+            if zona not in zonas_validas:
+                print(f"\n ❌ ERROR: La zona '{zona}' no es válida.")
+                print(f" Solo puede consultar: {', '.join(zonas_validas)}")
             else:
-                print(f"\n⚠️ No hay datos suficientes para generar estadísticas en {zona}.")
+                ###Si es válida se procede al gestor
+                stats = gestor.obtener_estadisticas_zona(zona)
+            
+                if stats:
+                    print(f"\n--- 📊 RESUMEN ESTADÍSTICO: {zona.upper()} ---")
+                    print(f"✅ Mediciones totales: {stats['conteo']}")
+                    print(f"🌡️ Temperatura Media: {stats['media_temp']:.2f}ºC")
+                    print(f"🔥 Temp. Máxima:      {stats['max_temp']}ºC")
+                    print(f"💧 Humedad Media:     {stats['media_hum']:.1f}%")
+                    print(f"💨 Viento Máximo:     {stats['max_viento']} km/h")
+                else:
+                    print(f"\n⚠️ No hay datos suficientes para generar estadísticas en {zona}.")
 
         elif opcion == "4":
             print("\nCerrando sistema... ¡Hasta pronto!")
