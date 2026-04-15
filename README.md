@@ -44,8 +44,8 @@ Se ha implementado una política de **"Código Global, Datos Locales"**:
 
 - **Uso de `.gitignore`:** Se excluyen los archivos `*.csv` mediante la regla `*.csv` para evitar conflictos de fusión (_merge conflicts_) y asegurar que cada desarrollador trabaje con sus propios datos de prueba.
 - **Limpieza de Caché:** Se realizó una limpieza profunda de la caché (`git rm --cached`) para garantizar que el archivo de datos no se suba al repositorio remoto una vez activado el ignore.
-- - **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas. Esto garantiza la integridad de los archivos CSV, evitando que se corrompan al fusionar ramas con diferentes datos.
-- - **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo de excepciones, asegurando que la aplicación sea estable incluso ante archivos con formatos inconsistentes.
+-  **Persistencia Inteligente**: Configuración de archivos `.gitattributes` para gestionar estrategias de unión (`merge`) personalizadas. Esto garantiza la integridad de los archivos CSV, evitando que se corrompan al fusionar ramas con diferentes datos.
+- **Robustez de Procesamiento**: Implementación de filtros de limpieza de datos y manejo de excepciones, asegurando que la aplicación sea estable incluso ante archivos con formatos inconsistentes.
 
 ---
 
