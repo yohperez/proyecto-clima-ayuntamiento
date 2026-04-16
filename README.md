@@ -14,6 +14,7 @@
   <img src="https://img.shields.io/badge/Pytest-Tests-green?style=for-the-badge&logo=pytest&logoColor=white" alt="Pytest">
   <img src="https://img.shields.io/badge/Web%20App-Dynamic%20UI-red?style=for-the-badge&logo=html5&logoColor=white" alt="Web App">
   <img src="https://img.shields.io/badge/Git-Version%20Control-black?style=for-the-badge&logo=git&logoColor=white" alt="Git">
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white" alt="Streamlit">
 </p>
 
 ---
